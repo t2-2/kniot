@@ -1,99 +1,94 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>רשימת קניות חכמה</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>רשימת קניות</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root {
+:root{
   --bg:#f4f6f9;
   --card:#fff;
   --primary:#4f46e5;
-  --text:#1f2937;
+  --text:#111827;
   --muted:#6b7280;
   --border:#e5e7eb;
   --highlight:#fef08a;
 }
 
-* {
+*{
   box-sizing:border-box;
   font-family:Assistant,sans-serif;
+}
+
+body{
   margin:0;
-  padding:0;
-}
-
-body {
   background:var(--bg);
-  display:flex;
-  justify-content:center;
-  padding:20px;
+  padding:12px;
 }
 
-.container {
-  width:100%;
-  max-width:900px;
+.container{
+  max-width:100%;
+  margin:auto;
   background:var(--card);
-  border-radius:16px;
-  padding:25px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+  border-radius:14px;
+  padding:14px;
 }
 
-header {
+/* MOBILE FIRST */
+h1{
+  font-size:20px;
   text-align:center;
-  border-bottom:1px solid var(--border);
-  margin-bottom:20px;
-  padding-bottom:10px;
-}
-
-h1 {
   color:var(--primary);
+  margin:10px 0 20px;
 }
 
-.category-title {
-  margin:15px 0 10px;
+.category{
+  margin-bottom:18px;
+}
+
+.category-title{
+  font-size:15px;
   font-weight:700;
   color:var(--primary);
   border-bottom:1px solid var(--border);
   padding-bottom:5px;
+  margin-bottom:10px;
 }
 
-.products-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:10px;
-}
-
-.product {
+.item{
   display:flex;
   align-items:center;
   gap:10px;
   padding:10px;
   border:1px solid var(--border);
-  border-radius:8px;
-  cursor:pointer;
+  border-radius:10px;
+  margin-bottom:8px;
   background:#fafafa;
+  font-size:14px;
 }
 
-.product:hover {
-  background:#f3f4f6;
+.item input{
+  width:18px;
+  height:18px;
 }
 
-.product.checked {
-  opacity:0.5;
+.item.checked{
+  opacity:.5;
   text-decoration:line-through;
 }
 
-.product.highlight {
+.item.highlight{
   background:var(--highlight);
 }
 
-input[type=checkbox] {
-  width:18px;
-  height:18px;
-  accent-color:var(--primary);
+/* DESKTOP */
+@media (min-width:768px){
+  .container{max-width:900px;padding:25px;}
+  h1{font-size:26px;}
+  .item{font-size:15px;}
 }
 </style>
 </head>
@@ -101,10 +96,7 @@ input[type=checkbox] {
 <body>
 
 <div class="container">
-  <header>
-    <h1>רשימת קניות</h1>
-  </header>
-
+  <h1>רשימת קניות</h1>
   <div id="app"></div>
 </div>
 
@@ -124,68 +116,156 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const dbRef = ref(db, "shopping_items");
+const dbRef = ref(db,"shopping_items");
 
-const initialProducts = [
-  {id:"1",name:"מלפפונים",category:"ירקות",checked:false},
-  {id:"2",name:"עגבניות",category:"ירקות",checked:false},
-  {id:"3",name:"ביצים",category:"מקרר",checked:false},
-  {id:"4",name:"חלב",category:"מקרר",checked:false},
-  {id:"5",name:"ווניש קליה",category:"ניקוי",checked:false,highlight:true}
+/* ===== כל הרשימה שלך עם כמויות ===== */
+const items = [
+  // ירקות
+  ["ירקות, פירות ועשבי תיבול","מלפפונים"],
+  ["ירקות, פירות ועשבי תיבול","עגבניות"],
+  ["ירקות, פירות ועשבי תיבול","עגבניות שרי"],
+  ["ירקות, פירות ועשבי תיבול","פלפל אדום"],
+  ["ירקות, פירות ועשבי תיבול","כרוב לבן 1"],
+  ["ירקות, פירות ועשבי תיבול","חסה לאליק 2"],
+  ["ירקות, פירות ועשבי תיבול","פטריות"],
+  ["ירקות, פירות ועשבי תיבול","קישואים זוקיני 4"],
+  ["ירקות, פירות ועשבי תיבול","דלעת"],
+  ["ירקות, פירות ועשבי תיבול","בצלים"],
+  ["ירקות, פירות ועשבי תיבול","בצל סגול"],
+  ["ירקות, פירות ועשבי תיבול","גזרים"],
+  ["ירקות, פירות ועשבי תיבול","נענע"],
+  ["ירקות, פירות ועשבי תיבול","סלרי"],
+  ["ירקות, פירות ועשבי תיבול","פטרוזיליה"],
+  ["ירקות, פירות ועשבי תיבול","לימונים 4"],
+  ["ירקות, פירות ועשבי תיבול","סלק אדום 3"],
+  ["ירקות, פירות ועשבי תיבול","אגסים"],
+  ["ירקות, פירות ועשבי תיבול","דובדבנים"],
+  ["ירקות, פירות ועשבי תיבול","ענבים"],
+  ["ירקות, פירות ועשבי תיבול","קיווי"],
+  ["ירקות, פירות ועשבי תיבול","אבטיח"],
+  ["ירקות, פירות ועשבי תיבול","תפוחי אדמה לאפייה"],
+  ["ירקות, פירות ועשבי תיבול","בטטות 4"],
+
+  // מקרר
+  ["מוצרי מקרר","ביצים"],
+  ["מוצרי מקרר","גבינה צהובה 2"],
+  ["מוצרי מקרר","דנונה בר 4"],
+  ["מוצרי מקרר","מילקי קטנים"],
+  ["מוצרי מקרר","גבינת סקי 5%"],
+  ["מוצרי מקרר","גבינה צפתית 5%"],
+  ["מוצרי מקרר","שמנת מתוקה 4"],
+
+  // יבש
+  ["יבש ושימורים","שמן 6"],
+  ["יבש ושימורים","קוסקוס דק 6"],
+  ["יבש ושימורים","פתיתים 4"],
+  ["יבש ושימורים","עדשים שחורות"],
+  ["יבש ושימורים","עדשים ירוקות"],
+  ["יבש ושימורים","סויה כהה"],
+  ["יבש ושימורים","סוכר"],
+  ["יבש ושימורים","מלח"],
+  ["יבש ושימורים","סודה לשתייה"],
+  ["יבש ושימורים","קקאו"],
+  ["יבש ושימורים","קורנפלקס"],
+  ["יבש ושימורים","לימון בבקבוק 3"],
+
+  // חטיפים
+  ["חטיפים ומתוקים","עוגיות מרוקאיות"],
+  ["חטיפים ומתוקים","קינדר"],
+  ["חטיפים ומתוקים","שוקולד מריר 6"],
+  ["חטיפים ומתוקים","שוקולד חלב 3"],
+  ["חטיפים ומתוקים","במבה/ביסלי/אפרופו"],
+  ["חטיפים ומתוקים","בייגלה מקלות"],
+
+  // קפוא
+  ["קפואים ובשר","גרגרי חומוס"],
+  ["קפואים ובשר","שעועית לבנה"],
+  ["קפואים ובשר","שניצלונים"],
+  ["קפואים ובשר","מלאווח"],
+  ["קפואים ובשר","פיצות קטנות"],
+  ["קפואים ובשר","עופות 2"],
+  ["קפואים ובשר","שניצל צ'ילי"],
+  ["קפואים ובשר","שניצל תירס"],
+  ["קפואים ובשר","גלידוניות"],
+
+  // ניקוי
+  ["ניקוי וטואלטיקה","נייר סופג 2"],
+  ["ניקוי וטואלטיקה","מטליות לחות 3"],
+  ["ניקוי וטואלטיקה","טיטולים +5"],
+  ["ניקוי וטואלטיקה","מטרנה 2"],
+  ["ניקוי וטואלטיקה","סבון כלים"],
+  ["ניקוי וטואלטיקה","אבקת כביסה"],
+  ["ניקוי וטואלטיקה","סבון ידיים"],
+  ["ניקוי וטואלטיקה","קסמי אוזניים"],
+  ["ניקוי וטואלטיקה","נייר טואלט"],
+  ["ניקוי וטואלטיקה","אולטרה פרש 6"],
+  ["ניקוי וטואלטיקה","Cool 2"],
+  ["ניקוי וטואלטיקה","שמפו לגבר 5"],
+  ["ניקוי וטואלטיקה","ווניש קליה"],
+  ["ניקוי וטואלטיקה","סנו אוקסיג'ן"],
+
+  // שתיה
+  ["משקאות","קולה זירו 6"],
+  ["משקאות","ספרייט זירו 6"]
 ];
 
-// יצירה ראשונית אם ריק
-onValue(dbRef, snap => {
+/* ===== init firebase ===== */
+onValue(dbRef,(snap)=>{
   if(!snap.exists()){
-    const obj = {};
-    initialProducts.forEach(i => obj[i.id]=i);
+    const obj={};
+    items.forEach((i,idx)=>{
+      obj["p"+idx]={
+        id:"p"+idx,
+        category:i[0],
+        name:i[1],
+        checked:false
+      };
+    });
     set(dbRef,obj);
-  } else {
+  }else{
     render(snap.val());
   }
 });
 
+/* ===== render ===== */
 function render(data){
-  const app = document.getElementById("app");
+  const app=document.getElementById("app");
   app.innerHTML="";
 
-  const items = Object.values(data);
-  const cats = [...new Set(items.map(i=>i.category))];
+  const arr=Object.values(data);
+  const cats=[...new Set(arr.map(i=>i.category))];
 
   cats.forEach(cat=>{
-    const title = document.createElement("div");
+    const section=document.createElement("div");
+    section.className="category";
+
+    const title=document.createElement("div");
     title.className="category-title";
     title.textContent=cat;
 
-    const grid = document.createElement("div");
-    grid.className="products-grid";
+    section.appendChild(title);
 
-    items.filter(i=>i.category===cat).forEach(item=>{
-      const div = document.createElement("div");
-      div.className = "product " +
-        (item.checked ? "checked " : "") +
-        (item.highlight ? "highlight" : "");
+    arr.filter(i=>i.category===cat).forEach(item=>{
+      const div=document.createElement("div");
+      div.className="item"+(item.checked?" checked":"");
 
-      div.onclick = () => update(ref(db,"shopping_items/"+item.id),{
-        checked: !item.checked
-      });
-
-      const cb = document.createElement("input");
+      const cb=document.createElement("input");
       cb.type="checkbox";
       cb.checked=item.checked;
-      cb.onclick=e=>e.stopPropagation();
-      cb.onchange=()=>div.onclick();
 
-      const name=document.createElement("span");
-      name.textContent=item.name;
+      cb.onchange=()=>update(ref(db,"shopping_items/"+item.id),{
+        checked:!item.checked
+      });
+
+      const text=document.createElement("span");
+      text.textContent=item.name;
 
       div.appendChild(cb);
-      div.appendChild(name);
-      grid.appendChild(div);
+      div.appendChild(text);
+      section.appendChild(div);
     });
 
-    app.appendChild(title);
-    app.appendChild(grid);
+    app.appendChild(section);
   });
 }
 </script>
