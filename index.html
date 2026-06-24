@@ -1,336 +1,193 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>רשימת קניות חכמה</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-color: #f4f6f9;
-            --card-bg: #ffffff;
-            --primary-color: #4f46e5;
-            --text-main: #1f2937;
-            --text-muted: #4b5563;
-            --border-color: #e5e7eb;
-            --accent-highlight: #fef08a; /* צבע המרקר הצהוב מהתמונה */
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>רשימת קניות חכמה</title>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Assistant', sans-serif;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
+<style>
+:root {
+  --bg:#f4f6f9;
+  --card:#fff;
+  --primary:#4f46e5;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --highlight:#fef08a;
+}
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
+* {
+  box-sizing:border-box;
+  font-family:Assistant,sans-serif;
+  margin:0;
+  padding:0;
+}
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 15px;
-        }
+body {
+  background:var(--bg);
+  display:flex;
+  justify-content:center;
+  padding:20px;
+}
 
-        header h1 {
-            font-size: 2rem;
-            color: var(--primary-color);
-            font-weight: 700;
-        }
+.container {
+  width:100%;
+  max-width:900px;
+  background:var(--card);
+  border-radius:16px;
+  padding:25px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
 
-        /* סגנון לקטגוריות */
-        .category-section {
-            margin-bottom: 25px;
-        }
+header {
+  text-align:center;
+  border-bottom:1px solid var(--border);
+  margin-bottom:20px;
+  padding-bottom:10px;
+}
 
-        .category-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--border-color);
-        }
+h1 {
+  color:var(--primary);
+}
 
-        /* רשימת המוצרים */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 12px;
-        }
+.category-title {
+  margin:15px 0 10px;
+  font-weight:700;
+  color:var(--primary);
+  border-bottom:1px solid var(--border);
+  padding-bottom:5px;
+}
 
-        .product-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 12px;
-            background: #fafafa;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
+.products-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:10px;
+}
 
-        .product-item:hover {
-            background: #f3f4f6;
-        }
+.product {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  cursor:pointer;
+  background:#fafafa;
+}
 
-        .product-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-left: 10px;
-            cursor: pointer;
-            accent-color: var(--primary-color);
-        }
+.product:hover {
+  background:#f3f4f6;
+}
 
-        .product-name {
-            font-size: 1rem;
-            flex-grow: 1;
-            color: var(--text-main);
-        }
+.product.checked {
+  opacity:0.5;
+  text-decoration:line-through;
+}
 
-        /* סגנון למוצר שנקנה (מסומן) */
-        .product-item.checked {
-            background: #e2e8f0;
-            opacity: 0.6;
-        }
+.product.highlight {
+  background:var(--highlight);
+}
 
-        .product-item.checked .product-name {
-            text-decoration: line-through;
-            color: var(--text-muted);
-        }
-
-        /* סגנון מיוחד לפריטים שהיו מודגשים בצהוב בתמונה שלך */
-        .product-item.highlighted {
-            background-color: var(--accent-highlight);
-            border-color: #fde047;
-        }
-        .product-item.highlighted:hover {
-            background-color: #fef08a;
-        }
-    </style>
+input[type=checkbox] {
+  width:18px;
+  height:18px;
+  accent-color:var(--primary);
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
-    <header>
-        <h1>רשימת הקניות שלי</h1>
-    </header>
+  <header>
+    <h1>רשימת קניות</h1>
+  </header>
 
-    <div id="shopping-list">
-        </div>
+  <div id="app"></div>
 </div>
 
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // קונפיגורציה שסיפקת
-    const firebaseConfig = {
-        apiKey: "AIzaSyBmULlsLAzfsoW4_RaUwklDWxV6JtR-6bA",
-        authDomain: "kniot-769e4.firebaseapp.com",
-        projectId: "kniot-769e4",
-        storageBucket: "kniot-769e4.firebasestorage.app",
-        messagingSenderId: "248826431047",
-        appId: "1:248826431047:web:ae92e53941b3534ef25362"
-        databaseURL: "https://kniot-769e4-default-rtdb.asia-southeast1.firebasedatabase.app/" // <-- הוסף את השורה הזו!
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyBmULlsLAzfsoW4_RaUwklDWxV6JtR-6bA",
+  authDomain: "kniot-769e4.firebaseapp.com",
+  databaseURL: "https://kniot-769e4-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "kniot-769e4",
+  storageBucket: "kniot-769e4.appspot.com",
+  messagingSenderId: "248826431047",
+  appId: "1:248826431047:web:ae92e53941b3534ef25362"
+};
 
-    // אתחול אפליקציה ודאטהבייס
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const listRef = ref(db, 'shopping_items');
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const dbRef = ref(db, "shopping_items");
 
-    // מערך מובנה המכיל את כל הפריטים מהתמונה שלך מחולקים לפי קטגוריות הגיוניות
-    const initialProducts = [
-        // ירקות ופירות
-        { id: "p1", name: "מלפפונים", category: "ירקות ופירות", checked: false },
-        { id: "p2", name: "עגבניות", category: "ירקות ופירות", checked: false },
-        { id: "p3", name: "עגבניות שרי", category: "ירקות ופירות", checked: false },
-        { id: "p4", name: "פלפל אדום", category: "ירקות ופירות", checked: false },
-        { id: "p5", name: "כרוב לבן 1", category: "ירקות ופירות", checked: false },
-        { id: "p6", name: "חסה לאליק 2", category: "ירקות ופירות", checked: false },
-        { id: "p7", name: "פטריות", category: "ירקות ופירות", checked: false },
-        { id: "p8", name: "קישואים זוקיני 4", category: "ירקות ופירות", checked: false },
-        { id: "p9", name: "דלעת", category: "ירקות ופירות", checked: false },
-        { id: "p10", name: "בצלים", category: "ירקות ופירות", checked: false },
-        { id: "p11", name: "בצל סגול", category: "ירקות ופירות", checked: false },
-        { id: "p12", name: "גזרים", category: "ירקות ופירות", checked: false },
-        { id: "p13", name: "נענע", category: "ירקות ופירות", checked: false },
-        { id: "p14", name: "סלרי", category: "ירקות ופירות", checked: false },
-        { id: "p15", name: "פטרוזיליה", category: "ירקות ופירות", checked: false },
-        { id: "p16", name: "לימונים 4", category: "ירקות ופירות", checked: false },
-        { id: "p17", name: "סלק אדום 3", category: "ירקות ופירות", checked: false },
-        { id: "p18", name: "אגסים", category: "ירקות ופירות", checked: false },
-        { id: "p19", name: "דובדבנים", category: "ירקות ופירות", checked: false },
-        { id: "p20", name: "ענבים", category: "ירקות ופירות", checked: false },
-        { id: "p21", name: "קווי", category: "ירקות ופירות", checked: false },
-        { id: "p22", name: "אבטיח", category: "ירקות ופירות", checked: false },
-        { id: "p23", name: "תפוחי אדמה לאפייה", category: "ירקות ופירות", checked: false },
-        { id: "p24", name: "בטטות 4", category: "ירקות ופירות", checked: false },
+const initialProducts = [
+  {id:"1",name:"מלפפונים",category:"ירקות",checked:false},
+  {id:"2",name:"עגבניות",category:"ירקות",checked:false},
+  {id:"3",name:"ביצים",category:"מקרר",checked:false},
+  {id:"4",name:"חלב",category:"מקרר",checked:false},
+  {id:"5",name:"ווניש קליה",category:"ניקוי",checked:false,highlight:true}
+];
 
-        // מקרר ומוצרי חלב
-        { id: "p25", name: "ביצים", category: "חלב, ביצים ומקרר", checked: false },
-        { id: "p26", name: "גבינה צהובה 2", category: "חלב, ביצים ומקרר", checked: false },
-        { id: "p27", name: "דנונה בר עיגולים קטנים 4", category: "חלב, ביצים ומקרר", checked: false },
-        { id: "p28", name: "מילקי קטנים", category: "חלב, ביצים ומקרר", checked: false },
-        { id: "p29", name: "גבינת סקי 5% (1 גדול)", category: "חלב, ביצים ומקרר", checked: false },
-        { id: "p30", name: "גבינה צפתית 5%", category: "חלב, ביצים ומקרר", checked: false },
-        { id: "p31", name: "שמנת מתוקה 4", category: "חלב, ביצים ומקרר", checked: false },
+// יצירה ראשונית אם ריק
+onValue(dbRef, snap => {
+  if(!snap.exists()){
+    const obj = {};
+    initialProducts.forEach(i => obj[i.id]=i);
+    set(dbRef,obj);
+  } else {
+    render(snap.val());
+  }
+});
 
-        // מקפיא ומוצרי בשר
-        { id: "p32", name: "גרגרי חומוס", category: "מקפיא ומוצרים מוכנים", checked: false },
-        { id: "p33", name: "שעועית לבנה", category: "מקפיא ומוצרים מוכנים", checked: false },
-        { id: "p34", name: "שניצלונים של מאמא עוף 2 (דקים)", category: "מקפיא ומוצרים מוכנים", checked: false },
-        { id: "p35", name: "מלאווח", category: "מקפיא ומוצרים מוכנים", checked: false },
-        { id: "p36", name: "פיצות קטנות של מעדנות", category: "מקפיא ומוצרים מוכנים", checked: false },
-        { id: "p37", name: "עופות 2", category: "מקפיא ומוצרים מוכנים", checked: false },
-        { id: "p38", name: "שניצל צ'ילי", category: "מקפיא ומוצרים מוכנים", checked: false },
-        { id: "p39", name: "שניצל תירס", category: "מקפיא ומוצרים מוכנים", checked: false },
-        { id: "p40", name: "גלידוניות שוקו וניל", category: "מקפיא ומוצרים מוכנים", checked: false },
+function render(data){
+  const app = document.getElementById("app");
+  app.innerHTML="";
 
-        // פארם וניקוי
-        { id: "p41", name: "נייר סופג גלילים גדולים 2", category: "פארם וניקוי", checked: false },
-        { id: "p42", name: "מטליות לחות 3", category: "פארם וניקוי", checked: false },
-        { id: "p43", name: "טיטולים מידה 5+", category: "פארם וניקוי", checked: false },
-        { id: "p44", name: "מטרנה 2", category: "פארם וניקוי", checked: false },
-        { id: "p45", name: "סנו ספארק סבון כלים סגול 2", category: "פארם וניקוי", checked: false },
-        { id: "p46", name: "סנו מקסימה ג'ל כביסה 2", category: "פארם וניקוי", checked: false },
-        { id: "p47", name: "סבון ידיים לכיור המטבח", category: "פארם וניקוי", checked: false },
-        { id: "p48", name: "קסמי אוזניים", category: "פארם וניקוי", checked: false },
-        { id: "p49", name: "נייר טואלט", category: "פארם וניקוי", checked: false },
-        { id: "p50", name: "סנו מקסימה אולטרה פרש 6", category: "פארם וניקוי", checked: false },
-        { id: "p51", name: "סנו מקסימה cool 2", category: "פארם וניקוי", checked: false },
-        { id: "p52", name: "שמפו לגבר 5", category: "פארם וניקוי", checked: false },
-        // פריטים מודגשים במרקר מהתמונה
-        { id: "p53", name: "ווניש קליה (אבקה להסרת כתמים לבגדים לבנים)", category: "פארם וניקוי", checked: false, highlight: true },
-        { id: "p54", name: "סנו אוקסיג'ן ספריי (בצבע ירוק) לבגדים צבעוניים", category: "פארם וניקוי", checked: false, highlight: true },
+  const items = Object.values(data);
+  const cats = [...new Set(items.map(i=>i.category))];
 
-        // יבש, שמנים ורטבים
-        { id: "p55", name: "שמן 6", category: "מזווה ויבש", checked: false },
-        { id: "p56", name: "קוסקוס דק 6", category: "מזווה ויבש", checked: false },
-        { id: "p57", name: "פתיתים בצורת עיגולים 4", category: "מזווה ויבש", checked: false },
-        { id: "p58", name: "עדשים שחורות", category: "מזווה ויבש", checked: false },
-        { id: "p59", name: "עדשים ירוקות", category: "מזווה ויבש", checked: false },
-        { id: "p60", name: "סויה כהה", category: "מזווה ויבש", checked: false, highlight: true }, // היה מודגש בצהוב
-        { id: "p61", name: "סוכר", category: "מזווה ויבש", checked: false },
-        { id: "p62", name: "מלח", category: "מזווה ויבש", checked: false },
-        { id: "p63", name: "סודה לשתייה", category: "מזווה ויבש", checked: false },
-        { id: "p64", name: "קקאו", category: "מזווה ויבש", checked: false },
-        { id: "p65", name: "קורנפלקס תלמה + קורנפלקס שחור לבן", category: "מזווה ויבש", checked: false },
-        { id: "p66", name: "לימון בבקבוק 3", category: "מזווה ויבש", checked: false },
+  cats.forEach(cat=>{
+    const title = document.createElement("div");
+    title.className="category-title";
+    title.textContent=cat;
 
-        // מתוקים וחטיפים
-        { id: "p67", name: "עוגיות מרוקאיות של חברת 'ארקד'", category: "מתוקים וחטיפים", checked: false },
-        { id: "p68", name: "עוגיות אישיות של קינדר", category: "מתוקים וחטיפים", checked: false },
-        { id: "p69", name: "שוקולד מריר 6", category: "מתוקים וחטיפים", checked: false },
-        { id: "p70", name: "שוקולד חלב 3", category: "מתוקים וחטיפים", checked: false },
-        { id: "p71", name: "חטיפים (במבה, ביסלי גריל, ביסלי בצל, אפרופו)", category: "מתוקים וחטיפים", checked: false },
-        { id: "p72", name: "בייגלה מקלות של חברת בייגלה בייגלה", category: "מתוקים וחטיפים", checked: false },
+    const grid = document.createElement("div");
+    grid.className="products-grid";
 
-        // משקאות
-        { id: "p73", name: "קולה זירו 6", category: "משקאות", checked: false },
-        { id: "p74", name: "ספרייט זירו 6", category: "משקאות", checked: false }
-    ];
+    items.filter(i=>i.category===cat).forEach(item=>{
+      const div = document.createElement("div");
+      div.className = "product " +
+        (item.checked ? "checked " : "") +
+        (item.highlight ? "highlight" : "");
 
-    // האזנה לשינויים ב-Firebase Realtime Database בזמן אמת
-    onValue(listRef, (snapshot) => {
-        const data = snapshot.val();
-        
-        // אם הדאטהבייס ריק לחלוטין (ריצה ראשונה), נכניס את המוצרים המובנים
-        if (!data) {
-            const initialDataObj = {};
-            initialProducts.forEach(item => {
-                initialDataObj[item.id] = item;
-            });
-            set(listRef, initialDataObj);
-            return;
-        }
+      div.onclick = () => update(ref(db,"shopping_items/"+item.id),{
+        checked: !item.checked
+      });
 
-        // רינדור של הרשימה לפי קטגוריות
-        renderList(data);
+      const cb = document.createElement("input");
+      cb.type="checkbox";
+      cb.checked=item.checked;
+      cb.onclick=e=>e.stopPropagation();
+      cb.onchange=()=>div.onclick();
+
+      const name=document.createElement("span");
+      name.textContent=item.name;
+
+      div.appendChild(cb);
+      div.appendChild(name);
+      grid.appendChild(div);
     });
 
-    // פונקציית הרינדור של ה-HTML
-    function renderList(itemsObj) {
-        const container = document.getElementById('shopping-list');
-        container.innerHTML = ''; // ניקוי מקדים
-
-        // הפיכת האובייקט למערך
-        const itemsArray = Object.values(itemsObj);
-
-        // שליחת כל הקטגוריות הייחודיות שיש לנו
-        const categories = [...new Set(itemsArray.map(item => item.category))];
-
-        categories.forEach(category => {
-            // יצירת סקשן לקטגוריה
-            const section = document.createElement('div');
-            section.className = 'category-section';
-
-            const title = document.createElement('div');
-            title.className = 'category-title';
-            title.innerText = category;
-            section.appendChild(title);
-
-            const grid = document.createElement('div');
-            grid.className = 'products-grid';
-
-            // סינון הפריטים השייכים לקטגוריה הזו
-            const categoryItems = itemsArray.filter(item => item.category === category);
-
-            categoryItems.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = `product-item ${item.checked ? 'checked' : ''} ${item.highlight ? 'highlighted' : ''}`;
-                
-                // לחיצה על כל אזור הפריט תשנה את מצב ה-Checkbox
-                itemDiv.onclick = () => toggleItem(item.id, item.checked);
-
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.checked = item.checked;
-                // מניעת הפעלה כפולה של ה-click
-                checkbox.onclick = (e) => e.stopPropagation(); 
-                checkbox.onchange = () => toggleItem(item.id, item.checked);
-
-                const nameSpan = document.createElement('span');
-                nameSpan.className = 'product-name';
-                nameSpan.innerText = item.name;
-
-                itemDiv.appendChild(checkbox);
-                itemDiv.appendChild(nameSpan);
-                grid.appendChild(itemDiv);
-            });
-
-            section.appendChild(grid);
-            container.appendChild(section);
-        });
-    }
-
-    // עדכון הסטטוס של מוצר ספציפי ב-Firebase
-    function toggleItem(id, currentStatus) {
-        const itemUpdateRef = ref(db, `shopping_items/${id}`);
-        update(itemUpdateRef, {
-            checked: !currentStatus
-        });
-    }
+    app.appendChild(title);
+    app.appendChild(grid);
+  });
+}
 </script>
 
 </body>
